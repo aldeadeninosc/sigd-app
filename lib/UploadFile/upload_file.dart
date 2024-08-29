@@ -4,9 +4,9 @@ import 'dart:io' as io;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:ocr/Tools/PdfPreviewPage.dart';
 import 'package:ocr/providers/auth_provider.dart';
 import 'package:ocr/providers/folderprovider.dart';
 import 'package:ocr/providers/subfolderprovider.dart';
@@ -14,11 +14,14 @@ import 'package:ocr/providers/fileprovider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path/path.dart' as path;
 import 'package:universal_html/html.dart' as html;
 import 'package:ocr/Tools/util.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:open_file/open_file.dart';
+import 'dart:convert';
+import 'dart:io';
 
 class UploadFile extends StatefulWidget {
   const UploadFile({super.key});
@@ -94,31 +97,38 @@ class _UploadFileState extends State<UploadFile> {
   }
 
   Future<void> _fetchData({bool reset = false}) async {
+    if (!mounted) return;
     setState(() {
       isLoading = true;
     });
 
     await folderProvider?.fetchFolders();
-    setState(() {
-      isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
     checkTokenExpiration(folderProvider);
   }
 
   Future _fetchSubFolders(int folderId, {bool reset = false}) async {
+    if (!mounted) return;
     setState(() {
       isLoading = true;
     });
     _titulo = folder_name;
     await subFolderProvider?.fetchSubFolders(
         folderId: folderId); // Fetch all subfolders
-    setState(() {
-      isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
     checkTokenExpiration(subFolderProvider);
   }
 
   Future<void> _fetchDocuments(int subfolderId, {bool reset = false}) async {
+    if (!mounted) return;
     setState(() {
       isLoading = true;
     });
@@ -163,9 +173,11 @@ class _UploadFileState extends State<UploadFile> {
       q: null,
     );
 
-    setState(() {
-      isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
 
     checkTokenExpiration(fileProvider);
   }
@@ -303,13 +315,25 @@ class _UploadFileState extends State<UploadFile> {
     );
   }
 
+  String getFileExtension(String fileName) {
+    List<String> parts = fileName.split('.');
+    return parts.isNotEmpty
+        ? parts.last
+        : ''; // Retorna la última parte si existe
+  }
+
   Future<void> _takePhoto() async {
     final ImagePicker picker = ImagePicker();
     final XFile? photo =
         await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
+    String extencion = getFileExtension(photo!.name);
+    nameDocument = "$nameDocument.$extencion";
 
     if (photo != null) {
-      dynamic selectedFile = io.File(photo.path);
+      Map<String, String> selectedFileMap = {
+        'name': nameDocument, // Usar el nuevo nombre del documento
+        'path': photo.path, // Ruta del archivo
+      };
 
       bool shouldCrop = await _confirmImage(photo.path);
 
@@ -336,42 +360,14 @@ class _UploadFileState extends State<UploadFile> {
         );
 
         if (croppedFile != null) {
-          selectedFile = io.File(croppedFile.path);
+          selectedFileMap['path'] = croppedFile.path;
         }
       }
 
       setState(() {
-        this.selectedFile2 = selectedFile;
+        this.selectedFile2 = selectedFileMap;
+        fileSelected = true;
       });
-
-      final userId = user?['id'];
-      if (userId != null) {
-        _showLoadingDialog(context);
-        await fileProvider?.addDocument(
-            selectedFile.path, userId, currentSubFolderId!);
-
-        Navigator.of(context).pop();
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              backgroundColor: AppColors.mensajExito,
-              content: Text('Documento subido correctamente',
-                  style: TextStyle(color: Color(0xC3000022)))),
-        );
-
-        setState(() {
-          selectedFile = null;
-        });
-
-        await _fetchDocuments(currentSubFolderId!, reset: true);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              backgroundColor: AppColors.mensajError,
-              content: Text('No se pudo obtener el usuario actual',
-                  style: TextStyle(color: Color(0xC3000022)))),
-        );
-      }
     }
   }
 
@@ -395,26 +391,6 @@ class _UploadFileState extends State<UploadFile> {
                   style: TextStyle(color: Color(0xC3000022))),
             ),
           ],
-        );
-      },
-    );
-  }
-
-  Future<void> _showLoadingDialog(BuildContext context) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible:
-          false, // El diálogo no se puede descartar tocando fuera
-      builder: (BuildContext context) {
-        return const AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CircularProgressIndicator(),
-              SizedBox(height: 20),
-              Text('Subiendo imagen...')
-            ],
-          ),
         );
       },
     );
@@ -508,10 +484,10 @@ class _UploadFileState extends State<UploadFile> {
                       color: AppColors.negro,
                     ),
                   ),
+                  SizedBox(height: 15.0),
                 ],
               ),
             ),
-            SizedBox(height: 8.0),
             Positioned(
               right: 4,
               bottom: 4,
@@ -588,7 +564,7 @@ class _UploadFileState extends State<UploadFile> {
       default:
         return const Image(
           image: AssetImage('assets/images/carpeta.png'),
-          height: 80,
+          height: 75,
         );
     }
   }
@@ -634,16 +610,19 @@ class _UploadFileState extends State<UploadFile> {
                 ),*/
                 Center(
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (itemName.isNotEmpty) {
                         if (showingSubFolders) {
-                          subFolderProvider?.addSubFolder(
+                          await subFolderProvider?.addSubFolder(
                               itemName, currentFolderId!);
                         } else {
-                          folderProvider?.addFolder(itemName, 1);
+                          await folderProvider?.addFolder(itemName, 1);
                         }
-                        Navigator.of(context).pop();
-                        _updateView(resetPage: true);
+
+                        if (mounted) {
+                          Navigator.of(context).pop();
+                          _updateView(resetPage: true);
+                        }
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -700,22 +679,34 @@ class _UploadFileState extends State<UploadFile> {
     if (nameController.text != null && nameController.text!.isNotEmpty) {
       FilePickerResult? result = await FilePicker.platform.pickFiles();
       if (result != null && result.files.isNotEmpty) {
+        String fileName = nameController.text;
         if (kIsWeb) {
-          if (result.files.first.bytes != null) {
+          if (!fileName.contains('.')) {
             return {
               'bytes': result.files.first.bytes,
-              'name': '$nameController',
-              //'type': result.files.first.extension,
+              'name': '${nameController.text}.${result.files.first.extension}',
+            };
+          } else {
+            return {
+              'bytes': result.files.first.bytes,
+              'name': '${nameController.text}',
             };
           }
         } else {
           if (result.files.single.path != null) {
-            return {
-              //io.File(result.files.single.path!)
-              'path': result.files.single.path,
-              'name': '$nameDocument',
-              //'type': result.files.first.extension,
-            };
+            if (!fileName.contains('.')) {
+              return {
+                //io.File(result.files.single.path!)
+                'path': result.files.single.path,
+                'name': nameController.text,
+              };
+            } else {
+              return {
+                'path': result.files.first.path,
+                'name':
+                    '${nameController.text}.${result.files.first.extension}',
+              };
+            }
           }
         }
         fileSelected = true;
@@ -807,7 +798,6 @@ class _UploadFileState extends State<UploadFile> {
                   onPressed: () async {
                     if (nameDocument.isNotEmpty) {
                       if (selectedFile2 != null) {
-                        ////a
                         if (kIsWeb) {
                           await fileProvider?.addDocument(
                               selectedFile2, userId, currentSubFolderId!);
@@ -821,8 +811,7 @@ class _UploadFileState extends State<UploadFile> {
                             const SnackBar(
                                 backgroundColor: AppColors.mensajExito,
                                 content: Text('Documento subido correctamente',
-                                    style:
-                                        TextStyle(color: Color(0xC3000022)))),
+                                    style: TextStyle(color: AppColors.negro))),
                           );
                           setState(() {
                             selectedFile2 = null;
@@ -832,38 +821,49 @@ class _UploadFileState extends State<UploadFile> {
                           Navigator.of(context).pop();
                           await _fetchDocuments(currentSubFolderId!);
                         } else {
-                          await fileProvider?.addDocument(
-                              (selectedFile2 as io.File).path,
-                              userId,
-                              currentSubFolderId!);
-
-                          if (mounted) {
+                          bool? uploadSuccess =
+                              await fileProvider?.addDocumentM(
+                                  selectedFile2, userId, currentSubFolderId!);
+                          if (uploadSuccess == true) {
+                            if (mounted) {
+                              setState(() {
+                                selectedFile2 = null;
+                                isLoadFile = false;
+                              });
+                            }
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  backgroundColor: AppColors.mensajExito,
+                                  content: Text(
+                                      'Documento subido correctamente',
+                                      style:
+                                          TextStyle(color: AppColors.negro))),
+                            );
                             setState(() {
                               selectedFile2 = null;
-                              isLoadFile = false;
+                              fileSelected = false;
+                              nameDocument = "";
                             });
+                            Navigator.of(context).pop();
+                            await _fetchDocuments(currentSubFolderId!);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                backgroundColor: AppColors.mensajError,
+                                content: Text(
+                                  'Error al subir el documento. Inténtalo de nuevo.',
+                                  style: TextStyle(color: AppColors.negro),
+                                ),
+                              ),
+                            );
                           }
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                backgroundColor: AppColors.mensajExito,
-                                content: Text('Documento subido correctamente',
-                                    style:
-                                        TextStyle(color: Color(0xC3000022)))),
-                          );
-                          setState(() {
-                            selectedFile2 = null;
-                            fileSelected = false;
-                            nameDocument = "";
-                          });
-                          Navigator.of(context).pop();
-                          await _fetchDocuments(currentSubFolderId!);
                         }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                               backgroundColor: AppColors.mensajError,
                               content: Text('Por favor seleccione un archivo',
-                                  style: TextStyle(color: Color(0xC3000022)))),
+                                  style: TextStyle(color: AppColors.negro))),
                         );
                       }
                     } else {
@@ -919,43 +919,73 @@ class _UploadFileState extends State<UploadFile> {
       _showEditDocumentDialog(item);
     } else {
       String itemName = item['folder_name'] ?? item['subfolder_name'] ?? '';
+      TextEditingController nameController =
+          TextEditingController(text: itemName);
       showDialog(
         context: context,
         builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: const Color(0xFFFFF3F8),
-            title: Text(
-                showingSubFolders ? "Editar Subcarpeta" : "Editar Carpeta",
-                style: const TextStyle(color: Color(0xC3000022))),
-            content: TextField(
-              controller: TextEditingController(text: itemName),
-              onChanged: (value) => itemName = value,
-              decoration: const InputDecoration(hintText: "Nombre"),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text("Cancelar",
-                    style: TextStyle(color: Color(0xC3000022))),
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              backgroundColor: AppColors.blanco,
+              title: Text(
+                  showingSubFolders ? "Editar Subcarpeta" : "Editar Carpeta",
+                  style: const TextStyle(color: AppColors.negro)),
+              content: TextField(
+                controller: nameController,
+                onChanged: (value) => itemName = value,
+                decoration: const InputDecoration(hintText: "Nombre"),
               ),
-              TextButton(
-                onPressed: () {
-                  if (itemName.isNotEmpty) {
-                    if (showingSubFolders) {
-                      subFolderProvider?.updateSubFolder(
-                          item['id'], itemName, currentFolderId!);
-                    } else {
-                      folderProvider?.updateFolder(item['id'], itemName, 1);
+              actions: [
+                ElevatedButton(
+                  onPressed: () async {
+                    if (itemName.isNotEmpty) {
+                      try {
+                        if (showingSubFolders) {
+                          await subFolderProvider?.updateSubFolder(
+                              item['id'], itemName, currentFolderId!);
+                        } else {
+                          await folderProvider?.updateFolder(
+                              item['id'], itemName, 1);
+                        }
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                backgroundColor: AppColors.mensajExito,
+                                content: Text(
+                                  'Actualizado correctamente',
+                                  style: TextStyle(color: Color(0xC3000022)),
+                                )),
+                          );
+                          Navigator.of(context).pop();
+                          _updateView(resetPage: true);
+                        }
+                      } catch (e) {
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              backgroundColor: AppColors.mensajError,
+                              content: Text(
+                                'Error al actualizar',
+                                style: TextStyle(color: Color(0xC3000022)),
+                              ),
+                            ),
+                          );
+                        }
+                      }
                     }
-                    Navigator.of(context).pop();
-                    _updateView(resetPage: true);
-                  }
-                },
-                child: const Text("Guardar",
-                    style: TextStyle(color: Color.fromRGBO(0, 0, 34, 0.765))),
-              ),
-            ],
-          );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.naranja,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: const Text("Guardar",
+                      style: TextStyle(color: AppColors.blanco)),
+                ),
+              ],
+            );
+          });
         },
       );
     }
@@ -965,7 +995,7 @@ class _UploadFileState extends State<UploadFile> {
     final documentId = item['id'];
     final userId = user?['id'];
     selectedFile2 = item;
-    bool isLoadFile = false;
+    bool isLoadFile = true;
     String currentDocumentName = item['document_name'];
     TextEditingController nameController =
         TextEditingController(text: currentDocumentName);
@@ -1028,9 +1058,7 @@ class _UploadFileState extends State<UploadFile> {
                   onPressed: () async {
                     final int parsedUserId = int.parse(userId);
                     if (nameController.text.isNotEmpty) {
-                      setState(() {
-                        isLoadFile = true;
-                      });
+                      isLoadFile = true;
                       try {
                         if (selectedFile2 != null) {
                           if (kIsWeb) {
@@ -1045,7 +1073,7 @@ class _UploadFileState extends State<UploadFile> {
                             await fileProvider?.updateDocument(
                               documentId,
                               nameController.text,
-                              (selectedFile2 as io.File).path,
+                              selectedFile2,
                               parsedUserId,
                               currentSubFolderId!,
                             );
@@ -1076,11 +1104,10 @@ class _UploadFileState extends State<UploadFile> {
                                   style: TextStyle(color: Color(0xC3000022)),
                                 )),
                           );
+                          setState(() {
+                            isLoadFile = false;
+                          });
                         }
-                      } finally {
-                        setState(() {
-                          isLoadFile = false;
-                        });
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -1099,14 +1126,10 @@ class _UploadFileState extends State<UploadFile> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: isLoadFile
-                      ? const CircularProgressIndicator(
-                          backgroundColor: Color(0xC3000022),
-                        )
-                      : const Text(
-                          "Actualizar",
-                          style: TextStyle(color: AppColors.blanco),
-                        ),
+                  child: const Text(
+                    "Actualizar",
+                    style: TextStyle(color: AppColors.blanco),
+                  ),
                 ),
               ],
             );
@@ -1132,15 +1155,16 @@ class _UploadFileState extends State<UploadFile> {
           ),
           actions: [
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (showingDocuments) {
-                  fileProvider?.deleteDocument(itemId);
+                  await fileProvider?.deleteDocument(itemId);
                   _updateView(resetPage: true);
                 } else if (showingSubFolders) {
-                  subFolderProvider?.deleteSubFolder(itemId, currentFolderId!);
+                  await subFolderProvider?.deleteSubFolder(
+                      itemId, currentFolderId!);
                   _updateView(resetPage: true);
                 } else {
-                  folderProvider?.deleteFolder(itemId);
+                  await folderProvider?.deleteFolder(itemId);
                   _updateView(resetPage: true);
                 }
                 Navigator.of(context).pop();
@@ -1165,62 +1189,99 @@ class _UploadFileState extends State<UploadFile> {
   }
 
   void _previewDocument(dynamic document) {
-    if (document['document_type'] == 'pdf') {
-      _showPdfPreview(document['document_content']);
-    } else if (document['document_type'] == 'png' ||
-        document['document_type'] == 'jpeg' ||
-        document['document_type'] == 'jpg') {
-      _showImagePreview(document['document_content']);
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          backgroundColor: const Color(0xFFFFF3F8),
-          title: const Text(
-            'Vista previa no disponible',
-            style: TextStyle(color: Color(0xC3000022)),
-          ),
-          content: const Text(
-            'Vista previa no compatible para este tipo de documento',
-            style: TextStyle(color: Color(0xC3000022)),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text(
-                'Cerrar',
-                style: TextStyle(color: Color(0xC3000022)),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+    String documentType = document['document_type'];
+    String documentContentBase64 = document['document_content'];
+
+    switch (documentType) {
+      case 'pdf':
+        _showPdfPreview(documentContentBase64);
+        break;
+      case 'png':
+      case 'jpeg':
+      case 'jpg':
+        _showImagePreview(documentContentBase64);
+        break;
+      case 'docx':
+      case 'xlsx':
+        _showOfficePreview(documentContentBase64, documentType);
+        break;
+      default:
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: AppColors.blanco,
+            title: const Text(
+              'Vista previa no disponible',
+              style: TextStyle(color: Color(0xC30050022)),
             ),
-          ],
-        ),
-      );
+            content: const Text(
+              'Vista previa no compatible para este tipo de documento',
+              style: TextStyle(color: Color(0xC3000022)),
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                child: const Text(
+                  'Cerrar',
+                  style: TextStyle(color: AppColors.negro),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.naranja,
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(30), // Bordes redondeados
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 32), // Aumenta el padding
+                    minimumSize: const Size(200, 50)),
+              ),
+            ],
+          ),
+        );
+        break;
     }
   }
 
-  void _showPdfPreview(String documentContentBase64) {
+  void _showPdfPreview(String documentContentBase64) async {
     try {
       Uint8List bytes = base64Decode(documentContentBase64);
+      String path = '';
+
       if (kIsWeb) {
         final blob = html.Blob([bytes], 'application/pdf');
         final url = html.Url.createObjectUrlFromBlob(blob);
-        html.window.open(url, "_blank");
+
+        html.window.open(url, '_blank');
         html.Url.revokeObjectUrl(url);
       } else {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Scaffold(
-              appBar: AppBar(
-                  title: const Text(
-                'Vista previa PDF',
-                style: TextStyle(color: Color(0xC3000022)),
-              )),
-              body: SfPdfViewer.memory(bytes),
-            ),
-          ),
+        final directory = await getApplicationDocumentsDirectory();
+        path = '${directory.path}/document.pdf';
+        File file = File(path);
+        await file.writeAsBytes(bytes);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              contentPadding: EdgeInsets.zero,
+              content: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                height: MediaQuery.of(context).size.height * 0.8,
+                child: kIsWeb
+                    ? PdfPreviewPage(bytes: bytes)
+                    : SfPdfViewer.memory(bytes),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Cerrar'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
         );
       }
     } catch (e) {
@@ -1290,6 +1351,33 @@ class _UploadFileState extends State<UploadFile> {
         ),
       );
     }
+  }
+
+  void _showOfficePreview(String documentContentBase64, String documentType) {
+    Uint8List bytes = base64Decode(documentContentBase64);
+    String fileName = 'document.$documentType';
+
+    if (kIsWeb) {
+      final blob = html.Blob([
+        bytes
+      ], 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+      final url = html.Url.createObjectUrlFromBlob(blob);
+      final anchor = html.AnchorElement(href: url)
+        ..setAttribute("download", fileName)
+        ..click();
+      html.Url.revokeObjectUrl(url);
+    } else {
+      _saveAndOpenFile(bytes, fileName);
+    }
+  }
+
+  Future<void> _saveAndOpenFile(Uint8List bytes, String fileName) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final filePath = '${directory.path}/$fileName';
+    final file = io.File(filePath);
+
+    await file.writeAsBytes(bytes);
+    OpenFile.open(filePath);
   }
 
   Future<void> _downloadDocument(dynamic document) async {

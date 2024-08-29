@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class FolderProvider with ChangeNotifier {
-  final String baseUrl = 'http://aldeacristorey.com/api';
+  final String baseUrl = 'https://aldeacristorey.com/api';
   List<dynamic> folders = [];
   int totalItems = 0;
   String? token;

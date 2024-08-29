@@ -6,8 +6,8 @@ import 'dart:convert';
 //evelyn@gmail.com
 //Evelyn2000
 class AuthProvider with ChangeNotifier {
-  final String baseUrl = 'http://aldeacristorey.com/api/auth';
-
+  final String baseUrl = 'https://aldeacristorey.com/api/auth';
+  //final String baseUrl = 'https://aldeacristoreyocr.netlify.app/api/auth';
   Map<String, String>? currentUser;
   bool expiredToken = false;
   List<dynamic> users = [];
@@ -199,7 +199,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<void> getAllUsers({int? page = 1, int? perPage = 5}) async {
+  Future<void> getAllUsers() async {
     if (token == null) {
       final prefs = await SharedPreferences.getInstance();
       token = prefs.getString('token');
@@ -215,12 +215,7 @@ class AuthProvider with ChangeNotifier {
     }
 
     try {
-      var queryParameters = {
-        'per_page': perPage?.toString(),
-        'page': page?.toString()
-      };
-      final uri = Uri.parse('$baseUrl/getAll')
-          .replace(queryParameters: queryParameters);
+      final uri = Uri.parse('$baseUrl/getAll').replace();
       final response = await http.get(uri, headers: {
         'Authorization': 'Bearer $token',
       });
@@ -229,9 +224,6 @@ class AuthProvider with ChangeNotifier {
         expiredToken = false;
         var jsonResponse = json.decode(response.body);
         users = jsonResponse['items'];
-        totalItems = jsonResponse['totalCounts'];
-        this.perPage = perPage ?? this.perPage;
-        currentPage = page ?? currentPage;
       } else if (response.statusCode == 401) {
         expiredToken = true;
         await logout();
@@ -244,14 +236,6 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<void> setPage(int page) async {
-    await getAllUsers(page: page, perPage: perPage);
-  }
-
-  Future<void> setPerPage(int perPage) async {
-    await getAllUsers(page: 1, perPage: perPage);
-  }
-
   void handleTokenExpiration() {
     expiredToken = true;
     notifyListeners();
@@ -261,10 +245,6 @@ class AuthProvider with ChangeNotifier {
     if (token == null) {
       final prefs = await SharedPreferences.getInstance();
       token = prefs.getString('token');
-    }
-
-    if (token == null) {
-      return false;
     }
 
     try {
@@ -293,10 +273,6 @@ class AuthProvider with ChangeNotifier {
       token = prefs.getString('token');
     }
 
-    if (token == null) {
-      return false;
-    }
-
     try {
       final response = await http.delete(
         Uri.parse('$baseUrl/deleteUser/$id'),
@@ -305,13 +281,16 @@ class AuthProvider with ChangeNotifier {
           'Authorization': 'Bearer $token',
         },
       );
-
-      return response.statusCode == 200;
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        print('Error: ${response.statusCode}, ${response.body}');
+        return false;
+      }
     } catch (error) {
       if (kDebugMode) {
         print('Exception: $error');
       }
-
       return false;
     }
   }

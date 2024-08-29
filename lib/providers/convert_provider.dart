@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 
 class ConversionProvider with ChangeNotifier {
   final String apiKey = '763fcc65e5f4eb994360e0186de23ee8680b5fc1';
-  final String baseUri = 'http://aldeacristorey.com/api/proxy';
+  final String baseUri = 'https://aldeacristorey.com/api/proxy';
   //final String baseUri = 'https://sandbox..com/v1/';
   bool isLoading = false;
   String message = '';

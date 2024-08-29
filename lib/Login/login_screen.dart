@@ -54,10 +54,10 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: LayoutBuilder(
         builder: (context, constraints) {
-          //if (kIs && constraints.maxWidth > 800) {
-          if (kIsWeb) {
+          if (kIsWeb && constraints.maxWidth > 800) {
             return Stack(
               children: <Widget>[
                 Positioned.fill(
@@ -212,130 +212,140 @@ class _LoginState extends State<Login> {
                         .withOpacity(0.5), // Capa negra con 30% de opacidad
                   ),
                 ),
-                //Padding(
-                //padding: const EdgeInsets.all(20.0),
-                //child:
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-                    Container(
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/logoBlanco.png'),
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      height: 180,
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height *
-                          0.01, // Ajusta la altura al 5% de la altura de la pantalla
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(30.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(25.0),
-                      ),
-                      child: IntrinsicHeight(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "Iniciar Sesión",
-                              style: TextStyle(
-                                  fontSize: 35,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.naranja),
-                            ),
-                            SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.04),
-                            TextField(
-                              controller: emailController,
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: 'Correo',
-                                hintStyle: TextStyle(
-                                  fontSize: 20,
-                                  color: AppColors.azul,
-                                ),
-                                prefixIcon:
-                                    Icon(Icons.email, color: AppColors.azul),
+                Center(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.01),
+                          Container(
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image:
+                                    AssetImage('assets/images/logoBlanco.png'),
+                                fit: BoxFit.contain,
                               ),
                             ),
-                            SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.05),
-                            TextField(
-                              controller: passwordController,
-                              decoration: InputDecoration(
-                                border: const OutlineInputBorder(),
-                                hintText: 'Contraseña',
-                                hintStyle: const TextStyle(
-                                  fontSize: 20,
-                                  color: AppColors.azul,
-                                ),
-                                prefixIcon: const Icon(Icons.lock,
-                                    color: AppColors.azul),
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    _obscureText
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
+                            height: 180,
+                          ),
+                          const SizedBox(height: 5),
+                          Card(
+                            color: Colors.white,
+                            elevation: 4, // Sombra de la tarjeta
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    "Iniciar Sesión",
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.naranja),
                                   ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _obscureText = !_obscureText;
-                                    });
-                                  },
-                                ),
-                                suffixIconColor: AppColors.azul,
-                              ),
-                              obscureText: _obscureText,
-                            ),
-                            SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.05),
-                            if (errorMessage.isNotEmpty)
-                              Text(
-                                errorMessage,
-                                style: const TextStyle(color: Colors.red),
-                              ),
-                            if (isLoading) const CircularProgressIndicator(),
-                            if (!isLoading)
-                              GestureDetector(
-                                onTap: () => {
-                                  login(emailController.text.toString(),
-                                      passwordController.text.toString())
-                                },
-                                child: Container(
-                                  height: 60,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.7,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.naranja,
-                                    borderRadius: BorderRadius.circular(40),
-                                  ),
-                                  child: const Center(
-                                    child: Text(
-                                      'Ingresar',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.bold),
+                                  SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.02),
+                                  TextField(
+                                    controller: emailController,
+                                    decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      hintText: 'Correo',
+                                      hintStyle: TextStyle(
+                                        fontSize: 15,
+                                        color: AppColors.azul,
+                                      ),
+                                      prefixIcon: Icon(Icons.email,
+                                          color: AppColors.azul),
                                     ),
                                   ),
-                                ),
+                                  SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.02),
+                                  TextField(
+                                    controller: passwordController,
+                                    decoration: InputDecoration(
+                                      border: const OutlineInputBorder(),
+                                      hintText: 'Contraseña',
+                                      hintStyle: const TextStyle(
+                                        fontSize: 15,
+                                        color: AppColors.azul,
+                                      ),
+                                      prefixIcon: const Icon(Icons.lock,
+                                          color: AppColors.azul),
+                                      suffixIcon: IconButton(
+                                        icon: Icon(
+                                          _obscureText
+                                              ? Icons.visibility
+                                              : Icons.visibility_off,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            _obscureText = !_obscureText;
+                                          });
+                                        },
+                                      ),
+                                      suffixIconColor: AppColors.azul,
+                                    ),
+                                    obscureText: _obscureText,
+                                  ),
+                                  SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.03),
+                                  if (errorMessage.isNotEmpty)
+                                    Text(
+                                      errorMessage,
+                                      style: const TextStyle(color: Colors.red),
+                                    ),
+                                  if (isLoading)
+                                    const CircularProgressIndicator(),
+                                  if (!isLoading)
+                                    GestureDetector(
+                                      onTap: () => {
+                                        login(emailController.text.toString(),
+                                            passwordController.text.toString())
+                                      },
+                                      child: Container(
+                                        height: 60,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.7,
+                                        decoration: BoxDecoration(
+                                          color: AppColors.naranja,
+                                          borderRadius:
+                                              BorderRadius.circular(40),
+                                        ),
+                                        child: const Center(
+                                          child: Text(
+                                            'Ingresar',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                ],
                               ),
-                          ],
-                        ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
                 //),
               ],

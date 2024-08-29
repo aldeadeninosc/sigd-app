@@ -201,7 +201,8 @@ class MobileMainScreen extends StatelessWidget {
           _buildBottomNavigationBarItem(Icons.home, 'Inicio'),
           _buildBottomNavigationBarItem(Icons.folder, 'Carpetas'),
           //_buildBottomNavigationBarItem(Icons.add_circle, 'Crear'),
-          _buildBottomNavigationBarItem(Icons.widgets, 'Herramientas'),
+          if (!kIsWeb)
+            _buildBottomNavigationBarItem(Icons.widgets, 'Herramientas'),
           if (userType == 'Admin')
             _buildBottomNavigationBarItem(Icons.group, 'Gestión'),
           if (userType == 'Manager')
@@ -322,7 +323,8 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
           _buildDrawerItem(context, Icons.home, 'Inicio', 0),
           _buildDrawerItem(context, Icons.folder, 'Carpetas', 1),
-          _buildDrawerItem(context, Icons.widgets, 'Herramientas', 2),
+          if (!kIsWeb)
+            _buildDrawerItem(context, Icons.widgets, 'Herramientas', 2),
           if (widget.userType == 'Admin')
             _buildDrawerItem(context, Icons.group, 'Gestión de usuario', 3),
           if (widget.userType == 'Manager')

@@ -31,25 +31,28 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^1.2.2
+  tflite: ^1.1.2
   shared_preferences: ^2.2.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
   provider: ^6.1.2
-  syncfusion_flutter_pdfviewer: ^26.1.41
   path_provider: ^2.0.11
   open_file: ^3.2.1
   flutter_file_downloader: ^2.0.0
   universal_html: ^2.0.7
   permission_handler: ^10.2.0
-  file_picker: ^5.2.2
   image_picker: ^0.8.4+3
   image_cropper: ^1.4.0
   http_parser: ^4.0.0
   mime: ^1.0.0
 
+  
   path: any
+  flutter_pdfview: ^1.3.2
+  file_picker: ^8.1.2
+  syncfusion_flutter_pdfviewer: ^26.2.11
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -93,6 +96,10 @@ flutter:
     - assets/images/jpg.png
     - assets/images/xls.png
     - assets/images/xlsx.png
+    - assets/resources/apellidos.csv
+    - assets/resources/nombres.csv
+    - assets/resources/combined_document_list.json
+    
 
 
 
