@@ -52,28 +52,27 @@ class _UserGestureState extends State<UserGesture> {
         backgroundColor: const Color(0xFFFFF3F8),
         title: const Text(
           "Confirmar eliminación",
-          style: TextStyle(color: Color(0xC3000022)),
+          style: TextStyle(color: AppColors.negro),
         ),
         content: const Text(
           "¿Está seguro que desea eliminar este usuario?",
-          style: TextStyle(color: Color(0xC3000022)),
+          style: TextStyle(color: AppColors.negro),
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text(
-              "Cancelar",
-              style: TextStyle(color: Color(0xC3000022)),
-            ),
-          ),
-          TextButton(
+          ElevatedButton(
             onPressed: () async {
-              Navigator.of(context).pop();
               await _deleteUser(id);
+              Navigator.of(context).pop();
             },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.naranja,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
             child: const Text(
               "Eliminar",
-              style: TextStyle(color: Color(0xC3000022)),
+              style: TextStyle(color: AppColors.blanco),
             ),
           ),
         ],
@@ -155,51 +154,68 @@ class _UserGestureState extends State<UserGesture> {
                     ),
                   ),
                 ),
-                ...authProvider!.users.map(
-                  (user) => Card(
+                ...authProvider!.users.map((user) => Card(
                       elevation: 4,
                       color: Colors.white,
                       margin: const EdgeInsets.symmetric(
                           vertical: 8, horizontal: 16),
-                      child: ListTile(
-                        title: Text(
-                          user['name'] +
-                              ' ' +
-                              user['last_name'] +
-                              ' : ' +
-                              isAdminOrManager(user['user_type']),
-                          style: const TextStyle(color: Color(0xC3000022)),
-                        ),
-                        subtitle: Text(
-                          user['email'],
-                          style: const TextStyle(color: Color(0xC3000022)),
-                        ),
-                        trailing: PopupMenuButton<String>(
-                          color: const Color(0xFFFFF3F8),
-                          onSelected: (value) {
-                            if (value == 'edit') {
-                              _showUserForm(userData: user);
-                            } else if (value == 'delete') {
-                              _confirmDeleteUser(user['id']);
-                            }
-                          },
-                          itemBuilder: (context) => [
-                            const PopupMenuItem(
-                                value: 'edit',
-                                child: Text(
-                                  'Editar',
-                                  style: TextStyle(color: Color(0xC3000022)),
-                                )),
-                            const PopupMenuItem(
-                                value: 'delete',
-                                child: Text(
-                                  'Eliminar',
-                                  style: TextStyle(color: Color(0xC3000022)),
-                                )),
-                          ],
-                        ),
-                      )),
-                )
+                      child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.person,
+                                  size: 40, color: Color(0xC3000022)),
+                              Expanded(
+                                  child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    user['name'] + ' ' + user['last_name'],
+                                    style: const TextStyle(
+                                        color: Color(0xC3000022),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    user['user_type'],
+                                    style: const TextStyle(
+                                        color: Color(0xC3000022)),
+                                  ),
+                                  Text(
+                                    user['email'],
+                                    style: const TextStyle(
+                                        color: Color(0xC3000022)),
+                                  ),
+                                ],
+                              )),
+                              PopupMenuButton<String>(
+                                color: const Color(0xFFFFF3F8),
+                                onSelected: (value) {
+                                  if (value == 'edit') {
+                                    _showUserForm(userData: user);
+                                  } else if (value == 'delete') {
+                                    _confirmDeleteUser(user['id']);
+                                  }
+                                },
+                                itemBuilder: (context) => [
+                                  const PopupMenuItem(
+                                      value: 'edit',
+                                      child: Text(
+                                        'Editar',
+                                        style:
+                                            TextStyle(color: Color(0xC3000022)),
+                                      )),
+                                  const PopupMenuItem(
+                                      value: 'delete',
+                                      child: Text(
+                                        'Eliminar',
+                                        style:
+                                            TextStyle(color: Color(0xC3000022)),
+                                      )),
+                                ],
+                              ),
+                            ],
+                          )),
+                    )),
               ],
             ),
     );

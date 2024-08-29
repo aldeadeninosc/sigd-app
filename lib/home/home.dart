@@ -14,6 +14,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:universal_html/html.dart' as html;
 import 'dart:io' as io;
 import 'package:path/path.dart' as path;
+import 'package:ocr/Tools/busqueda.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -26,6 +27,8 @@ class _HomeState extends State<Home> {
   String? userType;
   List<Document> recentDocuments = [];
   List<Document> searchSuggestions = [];
+  List<Document> searchResults = [];
+  Map<String, dynamic> resultado = {};
   bool isLoading = false;
   TextEditingController searchController = TextEditingController();
   AuthProvider? authProvider;
@@ -76,7 +79,6 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> fetchRecentDocuments({String? query}) async {
-    int perPage = 8;
     fileProvider?.setToken(authProvider?.token);
     if (authProvider!.expiredToken || authProvider!.currentUser == null) {
       Navigator.of(context).pushReplacementNamed('/');
@@ -87,8 +89,6 @@ class _HomeState extends State<Home> {
     setState(() {
       isLoading = true;
     });
-
-    perPage = query != null ? 50 : 8;
 
     try {
       await fileProvider?.fetchDocuments(dateDesc: true, q: query);
@@ -132,6 +132,43 @@ class _HomeState extends State<Home> {
     });
   }
 
+  void _performSearch() async {
+    final searchText = searchController.text.toUpperCase();
+    try {
+      setState(() {
+        isLoading = true; // Indica que la búsqueda está en progreso
+      });
+      /*resultado = identificarDocumentoYCarpeta(searchText);
+
+      print('Carpeta: ${resultado['carpeta']}');
+      print('Subcarpeta: ${resultado['subcarpeta']}');
+      print('Documento: ${resultado['documento']}');*/
+      final results = await fileProvider?.searchDocuments(searchText);
+      setState(() {
+        searchResults = results!
+            .map((item) => Document(
+                  id: item['id'],
+                  documentName: item['document_name'],
+                  documentType: item['document_type'],
+                  documentContent: item['document_content'],
+                ))
+            .toList();
+        isLoading = false;
+      });
+    } catch (error) {
+      print('Error al buscar documentos: $error');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  //final names = DeteccionNombres.detectNames(searchText);
+  //final surnames = DeteccionNombres.detectSurnames(searchText);
+  // Muestra los nombres y apellidos detectados
+  //print('Nombres detectados: $names');
+  //print('Apellidos detectados: $surnames');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,12 +187,12 @@ class _HomeState extends State<Home> {
             ),
             Text(
               _nameUser,
-              style: TextStyle(
+              style: const TextStyle(
                   color: AppColors.negro,
                   fontSize: 24,
                   fontWeight: FontWeight.bold),
             ),
-            Text(
+            const Text(
               "Gestión de carpetas y documentos",
               style: TextStyle(color: AppColors.negro, fontSize: 12),
             ),
@@ -169,15 +206,16 @@ class _HomeState extends State<Home> {
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.search, color: AppColors.azul),
                   onPressed: () =>
-                      fetchRecentDocuments(query: searchController.text),
+                      //fetchRecentDocuments(query: searchController.text),
+                      _performSearch(),
                 ),
               ),
-              onChanged: (value) {
+              /*onChanged: (value) {
                 fetchSearchSuggestions(value);
-              },
-              onSubmitted: (value) {
+              },*/
+              /*onSubmitted: (value) {
                 fetchRecentDocuments(query: value);
-              },
+              },*/
             ),
             Expanded(
               child: Card(
@@ -191,71 +229,87 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const SizedBox(height: 8),
-                      isLoading
-                          ? const Center(
-                              child: CircularProgressIndicator(
-                              color: Color(0xC3000022),
-                            ))
-                          : Expanded(
-                              child: ListView.builder(
-                                itemCount: searchController.text.isEmpty
-                                    ? recentDocuments.length
-                                    : searchSuggestions.length,
-                                itemBuilder: (context, index) {
-                                  final document = searchController.text.isEmpty
-                                      ? recentDocuments[index]
-                                      : searchSuggestions[index];
-                                  return Card(
-                                    color: AppColors.blanco,
-                                    elevation: 3,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: ListTile(
-                                      leading: _getDocumentIcon(
-                                          document.documentType),
-                                      title: Text(
-                                        '${document.documentName}.${document.documentType}',
-                                        style: const TextStyle(
-                                            color: Color(0xC3000022)),
-                                      ),
-                                      trailing: PopupMenuButton<String>(
-                                        color: const Color(0xFFFFF3F8),
-                                        onSelected: (value) =>
-                                            _handleItemMenuAction(
-                                                value, document),
-                                        itemBuilder: (BuildContext context) {
-                                          List<String> choices = [
-                                            'Editar',
-                                            'Borrar',
-                                            'Descargar'
-                                          ];
-                                          if (userType == 'Manager') {
-                                            choices.remove('Editar');
-                                            choices.remove('Borrar');
-                                          }
-                                          return choices.map((String choice) {
-                                            return PopupMenuItem<String>(
-                                              value: choice,
-                                              child: Text(
-                                                choice,
-                                                style: const TextStyle(
-                                                    color: Color(0xC3000022)),
-                                              ),
-                                            );
-                                          }).toList();
-                                        },
-                                        icon: const Icon(
-                                          Icons.more_vert,
-                                          color: Color(0xC3000022),
-                                        ),
-                                      ),
-                                      onTap: () => _previewDocument(document),
+                      if (isLoading)
+                        const Center(
+                          child: CircularProgressIndicator(
+                            color: Color(0xC3000022),
+                          ),
+                        )
+                      else
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: searchController.text.isNotEmpty
+                                ? searchResults.isNotEmpty
+                                    ? searchResults.length
+                                    : 1
+                                : searchSuggestions.length,
+                            /*temBuilder: (context, index) {
+                              final document = searchController.text.isEmpty
+                                  ? recentDocuments[index]
+                                  : searchSuggestions[index];*/
+                            itemBuilder: (context, index) {
+                              if (searchController.text.isNotEmpty &&
+                                  searchResults.isEmpty) {
+                                // Mostrar mensaje si no hay resultados
+                                return Center(
+                                  child: Text(
+                                    'No se encontraron archivos con esa descripción.',
+                                    style: TextStyle(color: AppColors.negro),
+                                  ),
+                                );
+                              }
+                              final document = searchController.text.isNotEmpty
+                                  ? searchResults[index]
+                                  : searchSuggestions[index];
+                              return Card(
+                                color: AppColors.blanco,
+                                elevation: 3,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: ListTile(
+                                  leading:
+                                      _getDocumentIcon(document.documentType),
+                                  title: Text(
+                                    '${document.documentName}',
+                                    style: const TextStyle(
+                                        color: Color(0xC3000022)),
+                                  ),
+                                  trailing: PopupMenuButton<String>(
+                                    color: const Color(0xFFFFF3F8),
+                                    onSelected: (value) =>
+                                        _handleItemMenuAction(value, document),
+                                    itemBuilder: (BuildContext context) {
+                                      List<String> choices = [
+                                        'Editar',
+                                        'Borrar',
+                                        'Descargar'
+                                      ];
+                                      if (userType == 'Manager') {
+                                        choices.remove('Editar');
+                                        choices.remove('Borrar');
+                                      }
+                                      return choices.map((String choice) {
+                                        return PopupMenuItem<String>(
+                                          value: choice,
+                                          child: Text(
+                                            choice,
+                                            style: const TextStyle(
+                                                color: Color(0xC3000022)),
+                                          ),
+                                        );
+                                      }).toList();
+                                    },
+                                    icon: const Icon(
+                                      Icons.more_vert,
+                                      color: Color(0xC3000022),
                                     ),
-                                  );
-                                },
-                              ),
-                            )
+                                  ),
+                                  onTap: () => _previewDocument(document),
+                                ),
+                              );
+                            },
+                          ),
+                        )
                     ],
                   ),
                 ),
@@ -733,4 +787,25 @@ class _HomeState extends State<Home> {
     }
     return null;
   }
+
+  /*Future<void> loadModelAndRunD(String searchText) async {
+    // Cargar el modelo
+    await PredicionDocumento.loadModelDocumento();
+
+    // Ejecutar el modelo
+    String result = await PredicionDocumento.runModelDocumento(searchText);
+    print('Resultado de la predicción: $result');
+  }
+
+  Future<void> loadModelAndRunS(String searchText) async {
+    // Cargar el modelo
+
+    await PredicionSubcarpeta.loadModelSubcarpeta();
+
+    // Ejecutar el modelo
+    String result = await PredicionSubcarpeta.runModelSubcarpeta(searchText);
+    print('Resultado de la predicción: $result');
+
+    PredicionSubcarpeta.cerrarModelo();
+  }*/
 }

@@ -1,0 +1,970 @@
+[
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Documentos personales",
+            "documento": "Datos personales"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Documentos personales",
+            "documento": "Ficha de Datos Personales"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Documentos personales",
+            "documento": "Solicitud de Custodia"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Documentos personales",
+            "documento": "Autorización de Salida Temporal"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Documentos personales",
+            "documento": "Acta de Entrega de Custodia"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Documentos personales",
+            "documento": "Justificación de Ausencia"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Documentos personales",
+            "documento": "Registro de Huellas Dactilares"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Documentos personales",
+            "documento": "Carnet de Identificación"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Documentos personales",
+            "documento": "Certificado de Votación"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Documentos personales",
+            "documento": "Ficha de Ingreso"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Documentos personales",
+            "documento": "Carta de Permiso Especial"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Documentos personales",
+            "documento": "Dirección Familiar"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Documentos personales",
+            "documento": "Registro del Menor"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Documentos personales",
+            "documento": "Formato para el Retiro del Menor"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Documentos personales",
+            "documento": "Custodia a la Institución Aldea de Niños Cristo Rey"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Documentos personales",
+            "documento": "Información Personal"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Documentos personales",
+            "documento": "Salida Temporal"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Documentos personales",
+            "documento": "Solicitud de Autorización para Salida Temporal"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Documentos personales",
+            "documento": "Solicitud de Custodia e Inscripción en el Registro Civil"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Salud",
+            "documento": "Carnet de Vacunación"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Salud",
+            "documento": "Certificado Médico"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Salud",
+            "documento": "Examen Médico General"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Salud",
+            "documento": "Prueba de Covid"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Salud",
+            "documento": "Certificado de Cirugía"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Salud",
+            "documento": "Factura Médica"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Salud",
+            "documento": "Receta Médica"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Salud",
+            "documento": "Separación de Cita Médica"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Salud",
+            "documento": "Certificado de Descanso"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Salud",
+            "documento": "Carnet de Salud"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Salud",
+            "documento": "Ecografía"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Salud",
+            "documento": "Informe de Examen Médico"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Salud",
+            "documento": "Registros Médicos"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Escolaridad",
+            "documento": "Certificado de Matrícula"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Escolaridad",
+            "documento": "Título de Bachillerato"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Escolaridad",
+            "documento": "Libreta de Calificaciones"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Escolaridad",
+            "documento": "Informe de Aprendizaje"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Escolaridad",
+            "documento": "Diploma Escolar"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Escolaridad",
+            "documento": "Certificado de Culminación Escolaridad"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Escolaridad",
+            "documento": "Certificado de Promoción"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Escolaridad",
+            "documento": "Evaluación Psicológica"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Escolaridad",
+            "documento": "Notas de Parcial"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Escolaridad",
+            "documento": "Informe Psicoeducativo"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Escolaridad",
+            "documento": "Informe de Conducta"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Escolaridad",
+            "documento": "Reporte Académico Anual"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Escolaridad",
+            "documento": "Calificaciones Colegio"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Escolaridad",
+            "documento": "Calificaciones Escuela"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Escolaridad",
+            "documento": "Calificaciones de Primer Año"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Escolaridad",
+            "documento": "Escolaridad"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Escolaridad",
+            "documento": "Libreta de Calificaciones 5to Grado"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Escolaridad",
+            "documento": "Boletas de Calificaciones"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Cédulas",
+            "documento": "Cédula de Identidad"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Cédulas",
+            "documento": "Cédula de Representante"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Cédulas",
+            "documento": "Cédula de la Madre"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Cédulas",
+            "documento": "Cédula del Padre"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Cédulas",
+            "documento": "Cédula del Infante"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Cédulas",
+            "documento": "Pasaporte"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Cédulas",
+            "documento": "Carnet de Identificación"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Cédulas",
+            "documento": "Cedula del Representante Legal"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Informe General"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Informe Psicoeducativo"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Informe de Conducta"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Informe de Aprendizaje"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Informe Financiero Personal"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Carta de Conducta"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Acta de Reunión Legal"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Informe Psicológico"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Informe de Terapia"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Informe de Progreso en Talleres"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Informe de Actividades Deportivas"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Informe de Participación en Eventos"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Informe de Electroencefalograma"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Informe de Salud Mental"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Carta de Dinapen"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Informe de Primero Año"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Acta de Audiencia"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Sanción"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Hoja de Exploración y Evaluación"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Informe Pedagógico"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Informe Final de Terapia"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informe",
+            "documento": "Informe Psicopedagógico"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Certificados",
+            "documento": "Certificado de Nacimiento"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Certificados",
+            "documento": "Certificado de Bautismo"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Certificados",
+            "documento": "Certificado Médico"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Certificados",
+            "documento": "Certificado de Matrícula"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Certificados",
+            "documento": "Certificado de Cirugía"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Certificados",
+            "documento": "Certificado de Votación"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Certificados",
+            "documento": "Certificado de Descanso"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Certificados",
+            "documento": "Certificado de Promoción"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Certificados",
+            "documento": "Certificado de Tratamiento"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Certificados",
+            "documento": "Certificado de Participación en Eventos"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Certificados",
+            "documento": "Certificado de Atención Odontológica"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Certificados",
+            "documento": "Certificado de Atención Médica"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Certificados",
+            "documento": "Certificado de Culminación Escolaridad"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Certificados",
+            "documento": "Título de Bachillerato"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Foto",
+            "documento": "Fotografía Reciente"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Foto",
+            "documento": "Foto de Entrega de Resolución"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Póliza",
+            "documento": "Póliza de Seguro"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Póliza",
+            "documento": "Póliza Retiro – Interés"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informes médicos",
+            "documento": "Hoja de Evolución Médica"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informes médicos",
+            "documento": "Historial Médico"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informes médicos",
+            "documento": "Ficha Médica"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informes médicos",
+            "documento": "Informe Médico"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informes médicos",
+            "documento": "Hoja de Evolución Psicológica"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informes médicos",
+            "documento": "Evaluación Psicoemocional"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informes médicos",
+            "documento": "Informe de Salud Mental"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informes médicos",
+            "documento": "Informe Médico General"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informes médicos",
+            "documento": "Informe de Examen Médico"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informes médicos",
+            "documento": "Reporte de Exámenes"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Informes médicos",
+            "documento": "Informe de Electroencefalograma"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Laboratorio clínico",
+            "documento": "Examen de Sangre"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Laboratorio clínico",
+            "documento": "Examen de Orina"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Laboratorio clínico",
+            "documento": "Examen Serológico"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Laboratorio clínico",
+            "documento": "Examen VIH"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Laboratorio clínico",
+            "documento": "Examen de Heces"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Laboratorio clínico",
+            "documento": "Examen de Virología"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Laboratorio clínico",
+            "documento": "Informe de Examen de Laboratorio"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Laboratorio clínico",
+            "documento": "Hemograma Orina Heces"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Laboratorio clínico",
+            "documento": "Resultados de Exámenes"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Laboratorio clínico",
+            "documento": "Exámenes de Laboratorio"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Laboratorio clínico",
+            "documento": "Exámenes Clínicos"
+        }
+    },
+    {
+        "input": "",
+        "output": {
+            "carpeta": "",
+            "subcarpeta": "Laboratorio clínico",
+            "documento": "Prueba de Covid"
+        }
+    }
+]

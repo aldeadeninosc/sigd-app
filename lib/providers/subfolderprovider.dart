@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class SubFolderProvider with ChangeNotifier {
-  final String baseUrl = 'http://aldeacristorey.com/api';
+  final String baseUrl = 'https://aldeacristorey.com/api';
   List<dynamic> subFolders = [];
   int totalItems = 0;
   String? token;
